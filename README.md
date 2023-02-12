@@ -1,46 +1,104 @@
-# Getting Started with Create React App
+# 项目搭建
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## create-react-app react-ts-music --template typescript
 
-## Available Scripts
+## 库集成
 
-In the project directory, you can run:
+1. npm i @craco/craco@alpha
 
-### `npm start`
+1.1 ts 配置修改
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+```json
+ "baseUrl": ".",
+    "paths": {
+      "@/*": ["src/*"]
+    }
+```
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+```javascript
+// craco.config.js
+const path = require('path')
+const resolvePath = (path) => path.resolve(__dirname, path)
+module.exports = {
+  webpack: {
+    alias: {
+      '@': resolvePath('src'),
+      components: resolvePath('src/components')
+    }
+  }
+}
+```
 
-### `npm test`
+2. 配置 editorconfig
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```
+# http://editorconfig.org
+root = true
+[*] # 表示所有文件适用
+charset = utf-8 # 设置文件字符集为 utf-8
+indent_style = space # 缩进风格（tab | space）
+indent_size = 2 # 缩进大小
+end_of_line = lf # 控制换行类型(lf | cr | crlf)
+trim_trailing_whitespace = true # 去除行尾的任意空白字符
+insert_final_newline = true # 始终在文件末尾插入一个新行
 
-### `npm run build`
+[*.md] # 表示仅 md 文件适用以下规则
+max_line_length = off
+trim_trailing_whitespace = false
+```
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+3. 配置 prettier: npm i prettier -D
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+```js
+# .prettierrc
+{
+  "useTabs": false,
+  "tabWidth": 2,
+  "printWidth": 80,
+  "singleQuote": true,
+  "trailingComma": "none",
+  "semi": false
+}
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+```gitignore
+/dist/*
+/build/*
+.local
+.output.js
+/node_modules/**
 
-### `npm run eject`
+**/*.svg
+**/*.sh
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+/public/*
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+```
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+3. eslint npm i eslint -D
+   3.1 npx eslint --init
+   3.2 npm i eslint-plugin-prettier eslint-config-prettier -D
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+```
+extends: [
+  'eslint:recommended',
+  'plugin:react/recommended',
+  'plugin:@typescript-eslint/recommended',
+  'plugin:prettier/recommended'
+],
+```
 
-## Learn More
+4. 目录结构划分
+   mkdir assets base-ui utils components hooks router views store service
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+5. css 样式重置
+5.1 npm i normalize.css
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+6. less 配置
+6.1 npm i craco-less@2.1.0-alpha.0 -D
+
+7. 路由配置
+   npm i react-router-dom 
+
+8. store 
+  npm i @reduxjs/toolkit react-redux
