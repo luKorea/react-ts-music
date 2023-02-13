@@ -19,7 +19,6 @@ const PlaylistChildren = lazy(
 const ToplistChildren = lazy(() => import('@/views/discover/children/toplist'))
 
 const Focus = lazy(() => import('@/views/focus'))
-const Download = lazy(() => import('@/views/download'))
 const Mine = lazy(() => import('@/views/mine'))
 
 const routes: RouteObject[] = [
@@ -60,10 +59,6 @@ const routes: RouteObject[] = [
         element: <ToplistChildren />
       }
     ]
-  },
-  {
-    path: '/download',
-    element: <Download />
   },
   {
     path: '/mine',

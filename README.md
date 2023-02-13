@@ -2,6 +2,8 @@
 
 ## create-react-app react-ts-music --template typescript
 
+## 全部文件扩展名为tsx, style扩展名为.ts
+
 ## 库集成
 
 1. npm i @craco/craco@alpha
@@ -102,3 +104,8 @@ extends: [
 
 8. store 
   npm i @reduxjs/toolkit react-redux
+
+9. axios
+  npm i axios
+10. styled
+  npm i classnames styled-components

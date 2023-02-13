@@ -1,7 +1,10 @@
 import { configureStore } from '@reduxjs/toolkit'
+import recommendReducer from './modules/discover/recommend'
 
 const store = configureStore({
-  reducer: {}
+  reducer: {
+    recommend: recommendReducer
+  }
 })
 
 export type IRootState = ReturnType<typeof store.getState>

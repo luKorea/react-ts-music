@@ -1,15 +1,33 @@
-import React, { Suspense } from 'react'
-import { Outlet } from 'react-router-dom'
+import React, { Suspense, memo } from 'react'
+import { NavLink, Outlet } from 'react-router-dom'
+import { DiscoverWrapper, TopMenu } from './style'
 
-const Discover = () => {
+import { dicoverMenu } from '@/service/api/local-data'
+import type { FC, ReactNode } from 'react'
+
+interface IProps {
+  children?: ReactNode
+}
+
+const Discover: FC<IProps> = () => {
   return (
-    <div>
-      <div className="nav">导航</div>
+    <DiscoverWrapper>
+      <div className="top">
+        <TopMenu className="wrap-v1">
+          {dicoverMenu.map((item) => {
+            return (
+              <div className="item" key={item.title}>
+                <NavLink to={item.link}>{item.title}</NavLink>
+              </div>
+            )
+          })}
+        </TopMenu>
+      </div>
       <Suspense fallback="">
         <Outlet />
       </Suspense>
-    </div>
+    </DiscoverWrapper>
   )
 }
 
-export default Discover
+export default memo(Discover)
