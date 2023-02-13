@@ -1,17 +1,23 @@
-import React, { memo, useEffect, useCallback, useState, useRef } from 'react'
+import React, {
+  memo,
+  useCallback,
+  useState,
+  useRef,
+  ElementRef,
+  useEffect
+} from 'react'
 import { Carousel } from 'antd'
 import { BannerWrapper, BannerLeft, BannerRight, BannerControl } from './style'
-import { fetchBannerData } from '@/store/modules/discover/recommend'
-import { useAppSelector, useAppDispatch, appShallowEqual } from '@/hooks'
+import { useAppSelector, appShallowEqual } from '@/hooks'
 import type { FC, ReactNode } from 'react'
 
 interface IProps {
   children?: ReactNode
 }
 const TopBanner: FC<IProps> = () => {
+  // 记录当前轮播到的图片,动态设置背景图片
   const [currentIndex, setCurrentIndex] = useState(0)
-  const bannerRef = useRef<any>()
-  const dispatch = useAppDispatch()
+  const bannerRef = useRef<ElementRef<typeof Carousel>>(null)
   const { banners } = useAppSelector(
     (state) => ({
       banners: state.recommend.banners
@@ -19,22 +25,26 @@ const TopBanner: FC<IProps> = () => {
     appShallowEqual
   )
 
-  useEffect(() => {
-    dispatch(fetchBannerData())
-  }, [dispatch])
-
   const bannerChange = useCallback((from: any) => {
     setTimeout(() => {
       setCurrentIndex(from)
     }, 0)
   }, [])
 
-  const bgImage =
-    banners[currentIndex] &&
-    banners[currentIndex].imageUrl + '?imageView&blur=40x20'
+  // 获取背景图片
+  const [bgImage, setImage] = useState<string>('')
+  useEffect(() => {
+    if (banners[currentIndex]) {
+      setImage(banners[currentIndex].imageUrl + '?imageView&blur=40x20')
+    }
+  }, [banners, currentIndex])
 
   return (
-    <BannerWrapper bgImage={bgImage}>
+    <BannerWrapper
+      style={{
+        background: `url(${bgImage}) center center/6000px`
+      }}
+    >
       <div className="banner wrap-v2">
         <BannerLeft>
           <Carousel
@@ -60,11 +70,11 @@ const TopBanner: FC<IProps> = () => {
         <BannerControl className="control">
           <button
             className="btn left"
-            onClick={() => bannerRef.current.prev()}
+            onClick={() => bannerRef.current?.prev()}
           ></button>
           <button
             className="btn right"
-            onClick={() => bannerRef.current.next()}
+            onClick={() => bannerRef.current?.next()}
           ></button>
         </BannerControl>
       </div>
